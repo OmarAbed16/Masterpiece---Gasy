@@ -5,6 +5,8 @@
         <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
+
+        
             <div class="row">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
@@ -15,16 +17,47 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                                <h4 class="mb-0">$53k</h4>
+                                <h4 class="mb-0">${{ number_format($todaySalesSum, 2) }}</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than
-                                lask week</p>
-                        </div>
+    @if ($salesChange < 0)
+        <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">{{ number_format($salesChange, 2) }}% </span> than yesterday</p>
+    @else
+        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+{{ number_format($salesChange, 2) }}% </span> than yesterday</p>
+    @endif
+</div>
+
                     </div>
                 </div>
+
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card">
+                        <div class="card-header p-3 pt-2">
+                            <div
+                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                                <i class="material-icons opacity-10">weekend</i>
+                            </div>
+                            <div class="text-end pt-1">
+    <p class="text-sm mb-0 text-capitalize">Today's Orders</p>
+    <h4 class="mb-0">{{ number_format($todayOrderCount) }}</h4>
+</div>
+
+                        </div>
+                        <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+    @if ($orderChange < 0)
+        <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">{{ number_format($orderChange, 2) }}% </span> than yesterday</p>
+    @else
+        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+{{ number_format($orderChange, 2) }}% </span> than yesterday</p>
+    @endif
+</div>
+
+                    </div>
+                </div>
+
+
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-header p-3 pt-2">
@@ -39,9 +72,13 @@
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than
-                                lask month</p>
-                        </div>
+    @if ($customerChange < 0)
+        <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">{{ number_format($customerChange, 2) }}% </span> than yesterday</p>
+    @else
+        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+{{ number_format($customerChange, 2) }}% </span> than yesterday</p>
+    @endif
+</div>
+
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -52,37 +89,23 @@
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">New Clients</p>
-                                <h4 class="mb-0">3,462</h4>
-                            </div>
+    <p class="text-sm mb-0 text-capitalize">Today's Drivers</p>
+    <h4 class="mb-0">{{ number_format($todayDriverCount) }}</h4>
+</div>
+
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">-2%</span> than
-                                yesterday</p>
-                        </div>
+    @if ($driverChange < 0)
+        <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">{{ number_format($driverChange, 2) }}% </span> than yesterday</p>
+    @else
+        <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+{{ number_format($driverChange, 2) }}% </span> than yesterday</p>
+    @endif
+</div>
+
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div
-                                class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">weekend</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Sales</p>
-                                 <!-- Display the sum of sales for today -->
-    <h4 class="mb-0">kk</h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+5% </span>than
-                                yesterday</p>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
             <div class="row mt-4">
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
@@ -565,7 +588,7 @@
             <x-footers.auth></x-footers.auth>
         </div>
     </main>
-    <x-plugins></x-plugins>
+   
     </div>
     @push('js')
     <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js"></script>
