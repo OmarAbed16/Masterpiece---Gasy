@@ -42,7 +42,7 @@
 
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'tables' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('tables') }}">
+                    href="{{ route('drivers.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                     <i style="font-size: 1rem;" class="ps-2 pe-2 text-center"></i>
                     </div>

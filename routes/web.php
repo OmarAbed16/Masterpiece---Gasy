@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
-            
+use App\Http\Controllers\DriversController;
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -29,9 +29,24 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('billing', function () {
 		return view('pages.billing');
 	})->name('billing');
-	Route::get('drivers', function () {
-		return view('pages.tables');
-	})->name('tables');
+
+	
+	// Route to show the list of all drivers
+Route::get('/drivers', [DriversController::class, 'index'])->name('drivers.index');
+
+// Route to view a specific driver's details
+Route::get('/drivers/{id}', [DriversController::class, 'show'])->name('drivers.show');
+
+// Route to show the edit form for a driver
+Route::get('/drivers/{id}/edit', [DriversController::class, 'edit'])->name('drivers.edit');
+
+// Route to update a driver's information
+Route::put('/drivers/u/{id}', [DriversController::class, 'update'])->name('drivers.update');
+
+// Route to delete a driver
+Route::delete('/drivers/d/{id}', [DriversController::class, 'destroy'])->name('drivers.destroy');
+
+
 	Route::get('rtl', function () {
 		return view('pages.rtl');
 	})->name('rtl');
