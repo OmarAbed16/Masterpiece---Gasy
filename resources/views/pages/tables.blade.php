@@ -10,7 +10,7 @@
                         <div class="card my-4">
                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                    <h6 class="text-white text-capitalize ps-3">Authors table</h6>
+                                    <h6 class="text-white text-capitalize ps-3">Drivers</h6>
                                 </div>
                             </div>
                             <div class="card-body px-0 pb-2">
@@ -20,7 +20,7 @@
                                             <tr>
                                                 <th
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                    Author</th>
+                                                    Driver name</th>
                                                 <th
                                                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                     Function</th>

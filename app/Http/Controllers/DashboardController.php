@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Order;
-use App\Models\Payment;  // Payment model to get sales amount
+use App\Models\Payment;  
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -56,10 +56,30 @@ class DashboardController extends Controller
         $orderChange = $this->calculatePercentageChange($todayOrderCount, $yesterdayOrderCount);
         $salesChange = $this->calculatePercentageChange($todaySalesSum, $yesterdaySalesSum);
 
+        // Monthly Sales Data for Chart
+        $sales = Payment::join('orders', 'payments.order_id', '=', 'orders.order_id')
+                        ->selectRaw('MONTH(orders.created_at) as month, SUM(payments.amount) as total_sales')
+                        ->groupBy('month')
+                        ->orderBy('month')
+                        ->get();
+
+        // Prepare months array (January to December)
+        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        
+        // Initialize sales data for all months
+        $salesData = array_fill(0, 12, 0);
+
+        // Fill in the actual sales data
+        foreach ($sales as $sale) {
+            $salesData[$sale->month - 1] = $sale->total_sales;
+        }
+
+        // Return the view with all data
         return view('dashboard.index', compact(
             'todayCustomerCount', 'todayDriverCount', 'todayOrderCount', 'todaySalesSum',
             'yesterdayCustomerCount', 'yesterdayDriverCount', 'yesterdayOrderCount', 'yesterdaySalesSum',
-            'customerChange', 'driverChange', 'orderChange', 'salesChange'
+            'customerChange', 'driverChange', 'orderChange', 'salesChange',
+            'salesData', 'months'  // Passing the sales data and months for the chart
         ));
     }
 

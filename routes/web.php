@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('billing', function () {
 		return view('pages.billing');
 	})->name('billing');
-	Route::get('tables', function () {
+	Route::get('drivers', function () {
 		return view('pages.tables');
 	})->name('tables');
 	Route::get('rtl', function () {

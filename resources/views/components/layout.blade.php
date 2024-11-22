@@ -37,6 +37,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets') }}/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <!-- dataTables -->
+    <link rel="stylesheet" href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+
+    <!-- chartjs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="{{ $bodyClass }}">
 
@@ -61,5 +66,35 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('assets') }}/js/material-dashboard.min.js?v=3.0.0"></script>
+
+
+
+
+
+
+ <!-- jQuery -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DataTables JS -->
+<script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const tables = document.querySelectorAll('table');
+
+    tables.forEach((table) => {
+        new DataTable(table, {
+            columnDefs: [
+                {
+                    defaultContent: "-", // Fill missing cells with "-"
+                    targets: "_all"      // Apply to all columns
+                }
+            ],
+            autoWidth: false
+        });
+    });
+});
+
+</script>
+
 </body>
 </html>
