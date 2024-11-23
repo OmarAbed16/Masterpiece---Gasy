@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Truck extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'truck_id'; 
     protected $fillable = [
         'driver_id',
         'license_plate',

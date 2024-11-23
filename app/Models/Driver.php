@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Driver extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'driver_id'; 
     protected $fillable = [
         'user_id',
         'national_number',
