@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\DriversController;
+use App\Http\Controllers\UsersController;
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -45,6 +46,18 @@ Route::put('/drivers/u/{id}', [DriversController::class, 'update'])->name('drive
 
 // Route to delete a driver
 Route::delete('/drivers/d/{id}', [DriversController::class, 'destroy'])->name('drivers.destroy');
+
+
+
+// Route to show the edit form for a user
+Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
+
+// Route to update a user's information
+Route::put('/users/u/{id}', [UsersController::class, 'update'])->name('users.update');
+
+// Route to delete a user
+Route::delete('/users/d/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+
 
 
 	Route::get('rtl', function () {

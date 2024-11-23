@@ -84,17 +84,20 @@
                                                 <span class="text-secondary text-xs font-weight-bold">{{ $user->created_at }}</span>
                                             </td>
                                             
-                                            <td class="text-center"><a rel="tooltip" class="btn btn-success btn-link"
-                                                    href="" data-original-title=""
-                                                    title="">
-                                                    <i class="material-icons">edit</i>
-                                                    <div class="ripple-container"></div>
-                                                </a></td>
-                                            <td class="text-center"><button type="button" class="btn btn-danger btn-link"
-                                                data-original-title="" title="">
-                                                <i class="material-icons">close</i>
-                                                <div class="ripple-container"></div>
-                                            </button></td>
+                                             <!-- Edit Button -->
+<td class="text-center">
+    <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('users.edit', $user->id) }}" title="Edit">
+        <i class="material-icons">edit</i>
+    </a>
+</td>
+
+   <!-- Delete Button -->
+    <td class="text-center">
+    <button type="button" class="btn btn-danger btn-link delete-user"
+        data-id="{{ $user->id }}" title="Delete">
+        <i class="material-icons">close</i>
+    </button>
+</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -107,6 +110,59 @@
             <x-footers.auth></x-footers.auth>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+document.querySelectorAll('.delete-user').forEach(button => {
+    button.addEventListener('click', function () {
+        const userId = this.getAttribute('data-id'); 
+
+        // Show confirmation popup with SweetAlert2
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This User will be deleted and cannot be restored!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(result => {
+            if (result.isConfirmed) {
+                // Proceed with the DELETE request if confirmed
+
+                // Send DELETE request using fetch
+                fetch(`/users/d/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())  // Handle JSON response
+                .then(data => {
+                    if (data.success) {
+                        // Show success SweetAlert
+                        Swal.fire('Deleted!', 'The user has been deleted.', 'success');
+                        // Optionally reload the page to reflect the deletion
+                        setTimeout(function() {
+    location.reload(); 
+}, 1000); 
+
+                    } else {
+                        // Show error SweetAlert if deletion fails
+                        Swal.fire('Error!', 'There was an issue deleting the user.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle errors if the fetch request fails
+                    Swal.fire('Error!', 'Something went wrong. Please try again later.', 'error');
+                });
+            }
+        });
+    });
+});
 
 
+</script>
 </x-layout>
