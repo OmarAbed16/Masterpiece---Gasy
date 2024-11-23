@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\DriversController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\OrdersController;
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -82,3 +83,22 @@ Route::get('user-management', [ProfileController::class, 'userManagement'])->nam
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
 });
+
+
+
+
+
+
+
+Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
+
+
+Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+
+Route::get('/orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
+
+
+Route::put('/orders/u/{id}', [OrdersController::class, 'update'])->name('orders.update');
+
+Route::delete('/orders/d/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+

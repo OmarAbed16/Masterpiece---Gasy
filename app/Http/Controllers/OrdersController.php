@@ -3,15 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Driver;
+use App\Models\User;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
-        return view('orders.index', compact('orders'));
+        $orders = Order::join('payments', 'payments.order_id', '=', 'orders.order_id')
+            ->join('drivers', 'drivers.driver_id', '=', 'orders.driver_id') 
+            ->join('users as driver_user', 'driver_user.id', '=', 'drivers.user_id') 
+            ->join('users as customer', 'customer.id', '=', 'orders.user_id')  
+            ->where('orders.is_deleted', '0')
+            ->where('drivers.is_deleted', '0') 
+            ->where('customer.is_deleted', '0')
+            ->select(
+                'orders.order_id',
+                'orders.created_at',
+                'orders.status',
+                'orders.quantity',
+                'payments.status as payment_status',
+                'payments.amount as payment_amount',
+                'payments.payment_time as payment_date',
+                'payments.method as payment_method',  
+                'driver_user.name as driver_name', 
+                'driver_user.phone as driver_phone',  
+                'customer.name as customer_name',
+                'customer.email as customer_email',
+                'customer.phone as customer_phone',
+                'orders.user_id',
+                'orders.order_time',
+                'orders.delivery_time' 
+            )
+            ->get();
+
+        return view('pages.orders', compact('orders'));
     }
+    
+    
+    
+    
 
     public function create()
     {
@@ -55,9 +88,23 @@ class OrdersController extends Controller
         return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
     }
 
-    public function destroy(Order $order)
-    {
-        $order->delete();
-        return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+    public function destroy($orderId)
+{
+    $order = Order::find($orderId);
+
+    if (!$order) {
+        return response()->json([
+            'success' => false
+        ], 404);
     }
+
+    $order->is_deleted = '1';
+    $order->save();
+
+    return response()->json([
+        'success' => true
+    ]);
+}
+
+    
 }
