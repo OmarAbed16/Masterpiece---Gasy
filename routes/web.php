@@ -83,13 +83,11 @@ Route::get('user-management', [ProfileController::class, 'userManagement'])->nam
 	Route::get('MyProfile', function () {
 		return view('pages.laravel-examples.user-profile');
 	})->name('user-profile');
-});
 
 
 
 
-
-
+	
 
 Route::get('/orders', [OrdersController::class, 'index'])->name('orders.index');
 
@@ -119,6 +117,16 @@ Route::get('/reviews/{id}/edit', [RatingsController::class, 'edit'])->name('revi
 Route::put('/reviews/u/{id}', [RatingsController::class, 'update'])->name('reviews.update');
 
 Route::delete('/reviews/d/{id}', [RatingsController::class, 'destroy'])->name('reviews.destroy');
+
+
+
+
+});
+
+
+
+
+
 
 
 
