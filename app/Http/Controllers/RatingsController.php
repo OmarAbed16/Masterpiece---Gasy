@@ -2,59 +2,105 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Driver;
+use App\Models\User;
+use App\Models\Payment;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class RatingsController extends Controller
 {
     public function index()
-    {
-        $ratings = Rating::all();
-        return view('ratings.index', compact('ratings'));
-    }
+{
+    // Fetch ratings and related data by joining the relevant tables
+    $ratings = Rating::join('orders', 'ratings.order_id', '=', 'orders.order_id')
+        ->join('users as customer', 'ratings.customer_id', '=', 'customer.id')
+        ->join('drivers', 'ratings.driver_id', '=', 'drivers.driver_id')  // Corrected join with drivers
+        ->join('users as driver_user', 'drivers.user_id', '=', 'driver_user.id')  // Join to get driver info from users table
+        ->where('ratings.is_deleted', '0')
+        ->where('orders.is_deleted', '0')
+        ->where('customer.is_deleted', '0')
+        ->where('driver_user.is_deleted', '0')
+        ->select(
+            'ratings.*',
+            'orders.order_id',
+            'customer.id',
+            'customer.name as customer_name',
+            'customer.phone as customer_phone',
+            'driver_user.name as driver_name',  // Corrected to driver_user.name
+            'driver_user.phone as driver_phone',  // Corrected to driver_user.phone
+            'orders.order_time',
+            'drivers.driver_id',
+            
+        )
+        ->get();
+
+    return view('pages.reviews', compact('ratings'));
+}
+
+    
+    
+    
+    
+    
 
     public function create()
     {
-        return view('ratings.create');
+        return view('orders.create');
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'order_id' => 'required|exists:orders,id',
-            'rating' => 'required|integer|min:1|max:5',
-            'review' => 'nullable|string|max:500',
+            'driver_id' => 'nullable|exists:drivers,id',
+            'truck_id' => 'nullable|exists:trucks,id',
+            'quantity' => 'required|numeric|min:0.01',
+            'address' => 'required|string|max:255',
+            'status' => 'required|in:pending,shipping,delivered,canceled',
+            'payment_status' => 'required|in:completed,refunded,canceled',
         ]);
 
-        Rating::create($data);
-        return redirect()->route('ratings.index')->with('success', 'Rating created successfully.');
+        Order::create($data);
+        return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }
 
-    public function show(Rating $rating)
+    public function show(Order $order)
     {
-        return view('ratings.show', compact('rating'));
+        return view('orders.show', compact('order'));
     }
 
-    public function edit(Rating $rating)
+    public function edit(Order $order)
     {
-        return view('ratings.edit', compact('rating'));
+        return view('orders.edit', compact('order'));
     }
 
-    public function update(Request $request, Rating $rating)
+    public function update(Request $request, Order $order)
     {
         $data = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'review' => 'nullable|string|max:500',
+            'status' => 'required|in:pending,shipping,delivered,canceled',
+            'payment_status' => 'required|in:completed,refunded,canceled',
         ]);
 
-        $rating->update($data);
-        return redirect()->route('ratings.index')->with('success', 'Rating updated successfully.');
+        $order->update($data);
+        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
     }
 
-    public function destroy(Rating $rating)
-    {
-        $rating->delete();
-        return redirect()->route('ratings.index')->with('success', 'Rating deleted successfully.');
+    public function destroy($id)
+{
+    $rating = Rating::find($id);
+
+    if (!$rating) {
+        return response()->json(['success' => false], 404);
     }
+
+    $rating->is_deleted = '1';
+    $rating->save();
+
+    return response()->json(['success' => true]);
+}
+
+
+    
 }

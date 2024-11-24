@@ -8,6 +8,7 @@ use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\DriversController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\RatingsController;
 
 Route::get('/', function () {return redirect('sign-in');})->middleware('guest');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -101,4 +102,23 @@ Route::get('/orders/{id}/edit', [OrdersController::class, 'edit'])->name('orders
 Route::put('/orders/u/{id}', [OrdersController::class, 'update'])->name('orders.update');
 
 Route::delete('/orders/d/{id}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+
+
+
+
+
+
+Route::get('/reviews', [RatingsController::class, 'index'])->name('reviews.index');
+
+
+Route::get('/reviews/{id}', [RatingsController::class, 'show'])->name('reviews.show');
+
+Route::get('/reviews/{id}/edit', [RatingsController::class, 'edit'])->name('reviews.edit');
+
+
+Route::put('/reviews/u/{id}', [RatingsController::class, 'update'])->name('reviews.update');
+
+Route::delete('/reviews/d/{id}', [RatingsController::class, 'destroy'])->name('reviews.destroy');
+
+
 

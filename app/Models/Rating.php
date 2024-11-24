@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'rating_id';
+    public $timestamps = false;
     protected $fillable = [
         'order_id',
         'driver_id',
@@ -17,6 +18,7 @@ class Rating extends Model
         'rating',
         'feedback',
         'rating_date',
+        'is_deleted',
     ];
 
     protected $casts = [

@@ -52,9 +52,7 @@
                                         </div>
                                        
                                         <p class="mt-4 text-sm text-center">
-                                            Forgot your password? Reset your password
-                                            <a href="{{ route('verify') }}"
-                                                class="text-primary text-gradient font-weight-bold">here</a>
+                                           
                                         </p>
                                     </form>
                                 </div>
