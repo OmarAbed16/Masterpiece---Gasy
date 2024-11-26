@@ -131,7 +131,7 @@ document.querySelectorAll('.delete-user').forEach(button => {
                 // Proceed with the DELETE request if confirmed
 
                 // Send DELETE request using fetch
-                fetch(`/users/d/${userId}`, {
+                fetch(`/users/delete/${userId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

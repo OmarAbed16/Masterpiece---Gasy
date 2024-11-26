@@ -127,7 +127,7 @@
                 // Proceed with the DELETE request if confirmed
 
                 // Send DELETE request using fetch
-                fetch(`/reviews/d/${ratingsId}`, {
+                fetch(`/reviews/delete/${ratingsId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

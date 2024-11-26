@@ -7,7 +7,13 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-  
+    public function index()
+    {
+        $users = User::where('is_deleted', '0')
+        ->where('role', 'customer')
+        ->get();
+        return view('dashboard.profiles.users.profile-user', compact('users'));
+    }
 
     public function edit($id)
     {
@@ -17,7 +23,7 @@ class UsersController extends Controller
             return redirect()->route('users.index')->with('error', 'User not found.');
         }
 
-        return view('pages.laravel-examples.users-profile', compact('user'));
+        return view('dashboard.profiles.users.profile-user-edit', compact('user'));
     }
 
     public function update(Request $request, $id)

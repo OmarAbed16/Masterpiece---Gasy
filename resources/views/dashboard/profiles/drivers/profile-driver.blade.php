@@ -222,7 +222,7 @@
                 // Proceed with the DELETE request if confirmed
 
                 // Send DELETE request using fetch
-                fetch(`/drivers/d/${driverId}`, {
+                fetch(`/drivers/delete/${driverId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

@@ -31,11 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::post('sign-out', [SessionsController::class, 'destroy'])->name('logout');
 
     // Profile Routes
-    Route::get('profile', [ProfileController::class, 'create'])->name('profile');
-    Route::post('MyProfile', [ProfileController::class, 'update']);
-    Route::get('user-management', [ProfileController::class, 'userManagement'])->name('user-management');
-    Route::get('MyProfile', fn() => view('pages.laravel-examples.user-profile'))->name('user-profile');
-
+    //Route::get('profile', [ProfileController::class, 'create'])->name('profile');
+    
     // Static Pages
     Route::view('billing', 'pages.billing')->name('billing');
     Route::view('rtl', 'pages.rtl')->name('rtl');
@@ -44,9 +41,26 @@ Route::middleware('auth')->group(function () {
     Route::view('static-sign-in', 'pages.static-sign-in')->name('static-sign-in');
     Route::view('static-sign-up', 'pages.static-sign-up')->name('static-sign-up');
 
-    // Resourceful Routes
-    Route::resource('drivers', DriversController::class)->except(['create', 'store']);
-    Route::resource('users', UsersController::class)->except(['index', 'create', 'store', 'show']);
-    Route::resource('orders', OrdersController::class)->except(['create', 'store']);
-    Route::resource('reviews', RatingsController::class)->except(['create', 'store']);
+
+    //MyProfile Pages
+    Route::resource('MyProfile', ProfileController::class)->except(['create', 'store'])->names('MyProfile');
+    Route::delete('MyProfile/delete/{MyProfile}', [ProfileController::class, 'destroy'])->name('MyProfile.destroy');
+    Route::put('MyProfile/edit/{MyProfile}', [ProfileController::class, 'edit'])->name('MyProfile.edit');
+    
+    //Drivers Pages
+    Route::resource('drivers', DriversController::class)->except(['create', 'store'])->names('drivers');
+    Route::delete('drivers/delete/{driver}', [DriversController::class, 'destroy'])->name('drivers.destroy');
+    Route::get('drivers/edit/{driver}', [DriversController::class, 'edit'])->name('drivers.edit');
+    
+    //Users Pages
+    Route::resource('users', UsersController::class)->except(['create', 'store', 'show'])->names('users');
+    Route::delete('users/delete/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
+    Route::get('users/edit/{user}', [UsersController::class, 'edit'])->name('users.edit');
+
+    Route::resource('orders', OrdersController::class)->except(['create', 'store'])->names('orders');
+    Route::delete('orders/delete/{order}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+
+    Route::resource('reviews', RatingsController::class)->except(['create', 'store'])->names('reviews');
+    Route::delete('reviews/delete/{review}', [RatingsController::class, 'destroy'])->name('reviews.destroy');
+
 });
