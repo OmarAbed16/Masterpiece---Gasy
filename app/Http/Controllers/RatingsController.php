@@ -36,7 +36,7 @@ class RatingsController extends Controller
         )
         ->get();
 
-    return view('pages.reviews', compact('ratings'));
+    return view('dashboard.reviews', compact('ratings'));
 }
 
     

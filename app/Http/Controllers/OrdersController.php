@@ -39,7 +39,7 @@ class OrdersController extends Controller
             )
             ->get();
 
-        return view('pages.orders', compact('orders'));
+        return view('dashboard.orders', compact('orders'));
     }
     
     

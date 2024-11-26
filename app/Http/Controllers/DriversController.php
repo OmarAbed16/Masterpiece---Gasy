@@ -32,7 +32,7 @@ class DriversController extends Controller
         )
         ->get();
 
-    return view('pages.tables', compact('drivers'));
+    return view('dashboard.profiles.drivers.profile-driver', compact('drivers'));
 }
 
 
@@ -76,7 +76,7 @@ public function edit($driver_id)
         return redirect()->route('drivers.edit')->with('error', 'Driver not found.');
     }
 
-    return view('pages.laravel-examples.driver-profile', compact('driver'));
+    return view('dashboard.profiles.drivers.profile-driver-edit', compact('driver'));
 }
 
 

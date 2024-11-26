@@ -29,7 +29,7 @@
                                         @endif
                                         <div class="input-group input-group-outline mt-3">
                                             <label class="form-label">Email</label>
-                                            <input type="email" class="form-control" name="email" value="{{ 'omar@material.com' }}">
+                                            <input type="email" class="form-control" name="email" value="{{ 'omar@gmail.com' }}">
                                         </div>
                                         @error('email')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
