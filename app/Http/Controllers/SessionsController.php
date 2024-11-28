@@ -20,9 +20,27 @@ class SessionsController extends Controller
     public function store()
     {
         $attributes = request()->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => [
+                'required',           
+                'email',               
+                'exists:users,email',  
+                'max:255'            
+            ],
+            'password' => [
+                'required',            
+                'string',             
+                'min:6',               
+                'max:255',             
+            ],
+        ], [
+            // Custom error messages for better feedback
+            'email.exists' => 'The provided email address does not exist.',
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Please enter a valid email address.',
+            'password.required' => 'Please enter your password.',
+            'password.min' => 'Password must be at least 6 characters.',
         ]);
+        
 
         if (! auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
@@ -30,24 +48,20 @@ class SessionsController extends Controller
             ]);
         }
 
+        $user = auth()->user();
 
-     
-    $user = auth()->user();
-    
-    
-    if ($user->role !== 'admin') {
-        auth()->logout(); 
-        return redirect('/sign-in')->withErrors(['email' => 'You do not have access to this area.']);
-    }
-
+        if ($user->role !== 'admin') {
+            auth()->logout(); 
+            return redirect('admin/sign-in')->withErrors(['email' => 'You do not have access to this area.']);
+        }
 
         session()->regenerate();
 
-        return redirect('/dashboard');
-
+        return redirect('admin/dashboard');
     }
 
-    public function show(){
+    public function show()
+    {
         request()->validate([
             'email' => 'required|email',
         ]);
@@ -59,16 +73,15 @@ class SessionsController extends Controller
         return $status === Password::RESET_LINK_SENT
                     ? back()->with(['status' => __($status)])
                     : back()->withErrors(['email' => __($status)]);
-        
     }
 
-    public function update(){
-        
+    public function update()
+    {
         request()->validate([
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
-        ]); 
+        ]);
           
         $status = Password::reset(
             request()->only('email', 'password', 'password_confirmation', 'token'),
@@ -76,15 +89,15 @@ class SessionsController extends Controller
                 $user->forceFill([
                     'password' => ($password)
                 ])->setRememberToken(Str::random(60));
-    
+
                 $user->save();
-    
+
                 event(new PasswordReset($user));
             }
         );
-    
+
         return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
+                    ? redirect()->route('admin.login')->with('status', __($status))
                     : back()->withErrors(['email' => [__($status)]]);
     }
 
@@ -92,7 +105,6 @@ class SessionsController extends Controller
     {
         auth()->logout();
 
-        return redirect('/sign-in');
+        return redirect('admin/sign-in');
     }
-
 }

@@ -169,7 +169,7 @@
                 // Proceed with the DELETE request if confirmed
 
                 // Send DELETE request using fetch
-                fetch(`/orders/delete/${orderId}`, {
+                fetch(`/admin/orders/delete/${orderId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
