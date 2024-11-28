@@ -19,11 +19,7 @@ Route::middleware('guest')->group(function () {
         Route::get('sign-in', [SessionsController::class, 'create'])->name('admin.login');
         Route::post('sign-in', [SessionsController::class, 'store']);
         
-        Route::post('verify', [SessionsController::class, 'show']);
-        Route::post('reset-password', [SessionsController::class, 'update'])->name('password.update');
-        Route::get('verify', fn() => view('sessions.password.verify'))->name('verify');
-        Route::get('reset-password/{token}', fn($token) => view('sessions.password.reset', ['token' => $token]))->name('password.reset');
-    });
+       });
 
     // Additional prefixes for other user types can be added here later (e.g., 'users/', 'drivers/')
     
