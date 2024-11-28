@@ -26,6 +26,7 @@ Route::middleware('guest')->group(function () {
     });
 
     // Additional prefixes for other user types can be added here later (e.g., 'users/', 'drivers/')
+    
 });
 
 // Auth Routes
