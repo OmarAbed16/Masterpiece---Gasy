@@ -12,6 +12,12 @@ use App\Http\Controllers\{
     RatingsController
 };
 
+
+Route::get('/notifications', function () {
+    return view('user.login.notifications'); // Replace 'notifications' with the name of your Blade view file.
+});
+
+
 // Guest Routes
 Route::middleware('guest')->group(function () {
     Route::prefix('admin')->group(function () {
@@ -22,7 +28,12 @@ Route::middleware('guest')->group(function () {
        });
 
     // Additional prefixes for other user types can be added here later (e.g., 'users/', 'drivers/')
-    
+    Route::prefix('user')->group(function () {
+        Route::redirect('/', 'sign-in');
+        Route::get('sign-in', [RegisterController::class, 'create'])->name('user.create');
+        Route::post('sign-in/create', [RegisterController::class, 'store'])->name('user.store');
+        
+       });
 });
 
 // Auth Routes
