@@ -23,6 +23,30 @@
    
 }
     </style>
+
+
+<style>
+  .radio-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, background 0.3s; /* Ensure smooth transition */
+  }
+
+  .radio-button:hover {
+    background-color: #e0e0e0;
+  }
+
+  input[type="radio"]:checked + .radio-button {
+    background: linear-gradient(45deg, #f94a3d, #ff9401); /* Gradient background */
+    color: white;
+    border-color: #e75a30; /* A color that complements the gradient */
+  }
+</style>
   </head>
 
   <body>
@@ -42,22 +66,37 @@
             <i class="fas fa-at"></i>
             <label for="">email</label>
           </div>
-          @error('email')
-          <p class='error up-error'>{{ $message }} </p>
-          @enderror
+         
           <div class="form-group">
             <input class="secure-text" id="signup-pw" type="password" required name="password" />
             <i class="fas fa-lock"></i>
             <label for="">password</label>
           </div>
-          @error('password')
-          <p class='error up-error'>{{ $message }} </p>
-          @enderror
+
+  
           <div class="form-group">
             <input class="secure-text" id="signup-pwm" type="password" required name="password_confirmation" />
             <i class="fas fa-lock"></i>
             <label for="">confirm password</label>
           </div>
+
+
+            
+          <div class="link" style="margin:0px;">
+          <label for="userType">Select user type:</label>
+          </div>
+          <div style="text-align:center; " >
+          <input type="radio" id="user" name="userType" value="customer" checked style="display: none;" />
+    <label for="user" class="radio-button">User</label>
+    
+
+    <input type="radio" id="driver" name="userType" value="driver" style="display: none;" />
+    <label for="driver" class="radio-button">Driver</label>
+ 
+          </div>
+
+
+
           <button id="signup" type="submit" class="btn">sign up</button>
           <div class="link">
             <p class="error up-error"></p>

@@ -32,6 +32,7 @@ Route::middleware('guest')->group(function () {
         Route::redirect('/', 'sign-in');
         Route::get('sign-in', [RegisterController::class, 'create'])->name('user.create');
         Route::post('sign-in/create', [RegisterController::class, 'store'])->name('user.store');
+        Route::post('sign-in/check', [RegisterController::class, 'check'])->name('user.check');
         
        });
 });

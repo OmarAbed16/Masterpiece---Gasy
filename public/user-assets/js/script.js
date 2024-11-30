@@ -19,11 +19,14 @@ signInLink.addEventListener("click", () => {
     console.log(flag);
 });
 
-function logup(event, us, em, pass, passMatch) {
+function logup(event, us, em, pass, passMatch, userRole, activation = "1") {
     let username = us;
     let email = em;
     let password = pass;
     let passwordMatch = passMatch;
+    let role = userRole;
+    let is_activation = activation;
+
     let signupErrorMessage = document.querySelectorAll(".up-error")[0];
     //check username+email
 
@@ -101,13 +104,26 @@ function logup(event, us, em, pass, passMatch) {
         return;
     }
 
+    if (role !== "customer" && role !== "driver") {
+        signupErrorMessage.textContent = "Role must be 'customer' or 'driver'";
+        event.preventDefault();
+        return;
+    }
+
+    if (is_activation !== "0" && is_activation !== "1") {
+        signupErrorMessage.textContent =
+            "Invalid activation status. Please try again.";
+        event.preventDefault();
+        return;
+    }
+
     let newUser = {
         name: username,
         email: email,
         password: password,
         passwordMatch: passwordMatch,
-        role: "customer",
-        is_deleted: "1",
+        role: role,
+        is_deleted: is_activation,
     };
 
     event.preventDefault();
@@ -177,16 +193,20 @@ function login(event, em, pw) {
         password: password,
     };
 
-    fetch("php/check_login.php", {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    fetch("/user/sign-in/check", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
         },
         body: JSON.stringify(loginData),
     })
         .then((response) => response.json())
         .then((data) => {
-            eval(data);
+            eval(data.result);
             console.log(data);
         })
         .catch((error) => {
@@ -211,7 +231,10 @@ form.addEventListener("submit", function (event) {
     let email = document.getElementById("signup-em").value;
     let password = document.getElementById("signup-pw").value;
     let passwordMatch = document.getElementById("signup-pwm").value;
-    logup(event, username, email, password, passwordMatch);
+    let userType = document.querySelector(
+        'input[name="userType"]:checked'
+    ).value;
+    logup(event, username, email, password, passwordMatch, userType, "1");
 });
 
 function logout(g) {
@@ -231,12 +254,19 @@ function auth_info(a) {
     console.log(decodedToken, "3");
     console.log(decodedToken.name, decodedToken.email, "4");
     let defaultPass = "Google@2024";
+
+    let userType = document.querySelector(
+        'input[name="userType"]:checked'
+    ).value;
+
     logup(
         event,
         decodedToken.name,
         decodedToken.email,
         defaultPass,
-        defaultPass
+        defaultPass,
+        userType,
+        "0"
     );
     logout(decodedToken.email);
 }
