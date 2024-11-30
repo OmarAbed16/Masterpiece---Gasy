@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('user-assets/css/face.css') }}">
-<link rel="stylesheet" href="{{ asset('user-assets/css/style.css') }}">
-<link rel="stylesheet" href="{{ asset('user-assets/css/media.css') }}">
+    <link rel="stylesheet" href="{{ asset('user-login-assets/css/face.css') }}">
+<link rel="stylesheet" href="{{ asset('user-login-assets/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('user-login-assets/css/media.css') }}">
 
     <link rel="shortcut icon" href="{{ asset('assets/img/logos/icon.png') }}">
     <title>Signin & Sign up</title>
@@ -220,7 +220,7 @@
       });
     })();
   </script>
-    <script src="{{ asset('user-assets/js/script.js') }}"></script>
+    <script src="{{ asset('user-login-assets/js/script.js') }}"></script>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     

@@ -33,6 +33,16 @@ Route::middleware('guest')->group(function () {
         Route::get('sign-in', [RegisterController::class, 'create'])->name('user.create');
         Route::post('sign-in/create', [RegisterController::class, 'store'])->name('user.store');
         Route::post('sign-in/check', [RegisterController::class, 'check'])->name('user.check');
+
+
+        Route::get('/ContactUs', function () {
+            return view('user.pages.contact');
+        })->name('contact');
+
+        Route::get('/aboutUs', function () {
+            return view('user.pages.about');
+        })->name('about');
+        
         
        });
 });
